@@ -1,4 +1,6 @@
-﻿namespace CourseHub.Models.CourseDB
+﻿using CourseHub.Models.CourseHubDB;
+
+namespace CourseHub.Models.CourseDB
 {
     public enum CourseLevel
     {
@@ -19,5 +21,9 @@
         public int CourseDurationMinutes { get; set; }
         public string CourseImagePath { get; set; }
         public bool CourseIsDelete { get; set; }
+
+        public List<Course_Category> Course_Categories { get; set; } = new();
+        public List<Course_Teacher> Course_Teachers { get; set; } = new ();
+
     }
 }

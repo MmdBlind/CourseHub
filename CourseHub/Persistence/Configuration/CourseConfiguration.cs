@@ -15,6 +15,8 @@ namespace CourseHub.Persistence.Mapping
             builder.HasIndex(c => c.CourseSlug)
                    .HasDatabaseName("IX_Course_CourseSlug")
                    .IsUnique();
+            builder.Property(c=>c.CourseImagePath).HasMaxLength(300);
+            
         }
     }
 }
