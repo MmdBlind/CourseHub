@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CourseHub.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateDataBase : Migration
+    public partial class FixConfiguration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -72,9 +72,7 @@ namespace CourseHub.Migrations
                 columns: table => new
                 {
                     CourseID = table.Column<int>(type: "int", nullable: false),
-                    CategoryID = table.Column<int>(type: "int", nullable: false),
-                    CourseID1 = table.Column<int>(type: "int", nullable: false),
-                    CategoryID1 = table.Column<int>(type: "int", nullable: false)
+                    CategoryID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -84,22 +82,10 @@ namespace CourseHub.Migrations
                         column: x => x.CategoryID,
                         principalTable: "Categories",
                         principalColumn: "CategoryID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Course_Categories_Categories_CategoryID1",
-                        column: x => x.CategoryID1,
-                        principalTable: "Categories",
-                        principalColumn: "CategoryID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Course_Categories_Courses_CourseID",
                         column: x => x.CourseID,
-                        principalTable: "Courses",
-                        principalColumn: "CourseID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Course_Categories_Courses_CourseID1",
-                        column: x => x.CourseID1,
                         principalTable: "Courses",
                         principalColumn: "CourseID",
                         onDelete: ReferentialAction.Cascade);
@@ -110,9 +96,7 @@ namespace CourseHub.Migrations
                 columns: table => new
                 {
                     CourseID = table.Column<int>(type: "int", nullable: false),
-                    TeacherID = table.Column<int>(type: "int", nullable: false),
-                    CourseID1 = table.Column<int>(type: "int", nullable: false),
-                    TeacherID1 = table.Column<int>(type: "int", nullable: false)
+                    TeacherID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -124,20 +108,8 @@ namespace CourseHub.Migrations
                         principalColumn: "CourseID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Course_Teachers_Courses_CourseID1",
-                        column: x => x.CourseID1,
-                        principalTable: "Courses",
-                        principalColumn: "CourseID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_Course_Teachers_Teachers_TeacherID",
                         column: x => x.TeacherID,
-                        principalTable: "Teachers",
-                        principalColumn: "TeacherID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Course_Teachers_Teachers_TeacherID1",
-                        column: x => x.TeacherID1,
                         principalTable: "Teachers",
                         principalColumn: "TeacherID",
                         onDelete: ReferentialAction.Cascade);
@@ -160,29 +132,9 @@ namespace CourseHub.Migrations
                 column: "CategoryID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Course_Categories_CategoryID1",
-                table: "Course_Categories",
-                column: "CategoryID1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Course_Categories_CourseID1",
-                table: "Course_Categories",
-                column: "CourseID1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Course_Teachers_CourseID1",
-                table: "Course_Teachers",
-                column: "CourseID1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Course_Teachers_TeacherID",
                 table: "Course_Teachers",
                 column: "TeacherID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Course_Teachers_TeacherID1",
-                table: "Course_Teachers",
-                column: "TeacherID1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Course_CourseSlug",

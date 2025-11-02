@@ -168,7 +168,7 @@ namespace CourseHub.Migrations
                     b.HasOne("CourseHub.Models.CourseHubDB.Category", "Category")
                         .WithMany("Course_Categories")
                         .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("CourseHub.Models.CourseDB.Course", "Course")

@@ -9,12 +9,16 @@ namespace CourseHub.Persistence.Configuration
         public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Course_Category> builder)
         {
             builder.HasKey(c => new { c.CourseID, c.CategoryID });
+
             builder.HasOne(c => c.Course)
                    .WithMany(cc => cc.Course_Categories)
-                   .HasForeignKey(f => f.CourseID);
+                   .HasForeignKey(f => f.CourseID)
+                   .OnDelete(DeleteBehavior.Cascade);
+
             builder.HasOne(c => c.Category)
                    .WithMany(cc => cc.Course_Categories)
-                   .HasForeignKey(f => f.CategoryID);
+                   .HasForeignKey(f => f.CategoryID)
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

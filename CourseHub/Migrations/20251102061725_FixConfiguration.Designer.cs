@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CourseHub.Migrations
 {
     [DbContext(typeof(CourseHubContext))]
-    [Migration("20251030100032_CreateDataBase")]
-    partial class CreateDataBase
+    [Migration("20251102061725_FixConfiguration")]
+    partial class FixConfiguration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -113,19 +113,9 @@ namespace CourseHub.Migrations
                     b.Property<int>("CategoryID")
                         .HasColumnType("int");
 
-                    b.Property<int>("CategoryID1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CourseID1")
-                        .HasColumnType("int");
-
                     b.HasKey("CourseID", "CategoryID");
 
                     b.HasIndex("CategoryID");
-
-                    b.HasIndex("CategoryID1");
-
-                    b.HasIndex("CourseID1");
 
                     b.ToTable("Course_Categories");
                 });
@@ -138,19 +128,9 @@ namespace CourseHub.Migrations
                     b.Property<int>("TeacherID")
                         .HasColumnType("int");
 
-                    b.Property<int>("CourseID1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TeacherID1")
-                        .HasColumnType("int");
-
                     b.HasKey("CourseID", "TeacherID");
 
-                    b.HasIndex("CourseID1");
-
                     b.HasIndex("TeacherID");
-
-                    b.HasIndex("TeacherID1");
 
                     b.ToTable("Course_Teachers");
                 });
@@ -188,27 +168,15 @@ namespace CourseHub.Migrations
 
             modelBuilder.Entity("CourseHub.Models.CourseHubDB.Course_Category", b =>
                 {
-                    b.HasOne("CourseHub.Models.CourseHubDB.Category", null)
+                    b.HasOne("CourseHub.Models.CourseHubDB.Category", "Category")
                         .WithMany("Course_Categories")
                         .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CourseHub.Models.CourseHubDB.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryID1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CourseHub.Models.CourseDB.Course", null)
-                        .WithMany("Course_Categories")
-                        .HasForeignKey("CourseID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("CourseHub.Models.CourseDB.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseID1")
+                        .WithMany("Course_Categories")
+                        .HasForeignKey("CourseID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -219,27 +187,15 @@ namespace CourseHub.Migrations
 
             modelBuilder.Entity("CourseHub.Models.CourseHubDB.Course_Teacher", b =>
                 {
-                    b.HasOne("CourseHub.Models.CourseDB.Course", null)
+                    b.HasOne("CourseHub.Models.CourseDB.Course", "Course")
                         .WithMany("Course_Teachers")
                         .HasForeignKey("CourseID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CourseHub.Models.CourseDB.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseID1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CourseHub.Models.CourseHubDB.Teacher", null)
+                    b.HasOne("CourseHub.Models.CourseHubDB.Teacher", "Teacher")
                         .WithMany("Course_Teachers")
                         .HasForeignKey("TeacherID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CourseHub.Models.CourseHubDB.Teacher", "Teacher")
-                        .WithMany()
-                        .HasForeignKey("TeacherID1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
