@@ -1,0 +1,44 @@
+﻿/* کاشی‌های آمار */
+.stat-box {
+    color: #fff;
+    padding: 1.25rem; /* p-4 تقریبی */
+    border-radius: .8rem; /* rounded-3 تقریبی */
+    box-shadow: 0 4px 14px rgba(0,0,0,.08);
+    transition: transform .15s ease, box-shadow .15s ease;
+}
+
+    .stat-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 22px rgba(0,0,0,.12);
+    }
+
+/* رنگ‌های گرادیانی */
+.stat-blue {
+    background: linear-gradient(135deg,#1e40af,#2563eb); /* آبی */
+}
+
+.stat-green {
+    background: linear-gradient(135deg,#0f766e,#10b981); /* سبز */
+}
+
+.stat-purple {
+    background: linear-gradient(135deg,#6d28d9,#8b5cf6); /* بنفش */
+}
+
+/* تایپوگرافی */
+.stat-label {
+    font-weight: 600;
+    opacity: .85;
+    margin-bottom: .25rem;
+}
+
+.stat-number {
+    font-weight: 800;
+    font-size: 2.25rem; /* ~ display-6 */
+    line-height: 1;
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    opacity: .85;
+}

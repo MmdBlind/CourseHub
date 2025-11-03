@@ -1,0 +1,65 @@
+﻿<div class="card-body stat-box">
+    <div class="row row-cols-1 row-cols-md-3 g-3" dir="rtl">
+
+        <div class="col">
+            <div class="stat-box stat-blue d-flex align-items-center justify-content-between h-100 position-relative">
+                <div class="me-3">
+                    <div class="stat-label">تعداد دوره‌ها:</div>
+                    <div class="stat-number">@ViewBag.CourseCount</div>
+                </div>
+                <i class="bi bi-journal-text stat-icon"></i>
+                <a class="stretched-link" asp-area="Admin" asp-controller="Courses" asp-action="Index"></a>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="stat-box stat-green d-flex align-items-center justify-content-between h-100 position-relative">
+                <div class="me-3">
+                    <div class="stat-label">تعداد دسته‌ها:</div>
+                    <div class="stat-number">@ViewBag.CategoryCount</div>
+                </div>
+                <i class="bi bi-diagram-3 stat-icon"></i>
+                <a class="stretched-link" asp-area="Admin" asp-controller="Categories" asp-action="Index"></a>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="stat-box stat-purple d-flex align-items-center justify-content-between h-100 position-relative">
+                <div class="me-3">
+                    <div class="stat-label">تعداد مدرسان:</div>
+                    <div class="stat-number">@ViewBag.TeacherCount</div>
+                </div>
+                <i class="bi bi-people stat-icon"></i>
+                <a class="stretched-link" asp-area="Admin" asp-controller="Teachers" asp-action="Index"></a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="card-body stat-box">
+    <div class="row row-cols-1 row-cols-md-3 g-3" dir="rtl">
+        <div class="col">
+            <div class="stat-box stat-green d-flex align-items-center justify-content-center h-100 position-relative">
+                <span class="fw-bold fs-4 text-white">اضافه‌کردن دوره</span>
+                <a class="stretched-link" asp-area="Admin" asp-controller="Courses" asp-action="Create" aria-label="اضافه‌کردن دوره"></a>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="stat-box stat-green d-flex align-items-center justify-content-center h-100 position-relative">
+                <span class="fw-bold fs-4 text-white">اضافه‌کردن دسته بندی</span>
+                <a class="stretched-link" asp-area="Admin" asp-controller="Categories" asp-action="Create" aria-label="اضافه‌کردن دوره"></a>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="stat-box stat-green d-flex align-items-center justify-content-center h-100 position-relative">
+                <span class="fw-bold fs-4 text-white">اضافه‌کردن مدرس</span>
+                <a class="stretched-link" asp-area="Admin" asp-controller="Teachers" asp-action="Create" aria-label="اضافه‌کردن دوره"></a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
