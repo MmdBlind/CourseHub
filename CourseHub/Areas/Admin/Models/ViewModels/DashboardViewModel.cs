@@ -5,6 +5,10 @@
         public int CoursesCount { get; set; }
         public int TeachersCount { get; set; }
         public int CategoriesCount { get; set; }
-        public List<LatestCourseViewModel> LatestCourseViewModels { get; set; }
+        public int DeletedCoursesCount { get; set; }
+        public int CategoriesWithoutCourseCount { get; set; }
+        public int CourseWithoutTeacherCount { get; set; }
+        public int CoursesWithoutCategoryCount { get; set; }
+        public List<LatestCourseViewModel> LatestCourse { get; set; }
     }
 }

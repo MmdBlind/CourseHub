@@ -1,44 +1,90 @@
 ﻿@model CourseHub.Areas.Admin.Models.ViewModels.DashboardViewModel
-<div class="card-body stat-box">
-    <div clasLatests="row row-cols-1 row-cols-md-3 g-3" dir="rtl">
+<div class="card-body no-hover stat-box">
+    <div class="row row-cols-1 row-cols-md-3 g-3" dir="rtl">
 
         <div class="col">
-            <div class="stat-box stat-blue d-flex align-items-center justify-content-between h-100 position-relative">
-                <div class="me-3">
+            <div class="stat-box stat-blue d-flex align-items-center h-100 position-relative">
+                <div class="me-3 text-end">
                     <div class="stat-label">تعداد دوره‌ها:</div>
-                    <div class="stat-number">@Model.CoursesCount</div>
+                    <div class="stat-number position-absolute + top-50 + start-50 + translate-middle">@Model.CoursesCount</div>
                 </div>
-                <i class="bi bi-journal-text stat-icon"></i>
+                <i class="bi bi-journal-text stat-icon me-auto"></i>
                 <a class="stretched-link" asp-area="Admin" asp-controller="Courses" asp-action="Index"></a>
             </div>
         </div>
 
         <div class="col">
-            <div class="stat-box stat-green d-flex align-items-center justify-content-between h-100 position-relative">
-                <div class="me-3">
+            <div class="stat-box stat-green d-flex align-items-center h-100 position-relative">
+                <div class="me-3 text-end">
                     <div class="stat-label">تعداد دسته‌ها:</div>
-                    <div class="stat-number">@Model.CategoriesCount</div>
+                    <div class="stat-number position-absolute + top-50 + start-50 + translate-middle">@Model.CategoriesCount</div>
                 </div>
-                <i class="bi bi-diagram-3 stat-icon"></i>
+                <i class="bi bi-diagram-3 stat-icon me-auto "></i>
                 <a class="stretched-link" asp-area="Admin" asp-controller="Categories" asp-action="Index"></a>
             </div>
         </div>
 
         <div class="col">
-            <div class="stat-box stat-purple d-flex align-items-center justify-content-between h-100 position-relative">
-                <div class="me-3">
+            <div class="stat-box stat-purple d-flex align-items-center h-100 position-relative">
+                <div class="me-3 text-end">
                     <div class="stat-label">تعداد مدرسان:</div>
-                    <div class="stat-number">@Model.TeachersCount</div>
+                    <div class="stat-number position-absolute + top-50 + start-50 + translate-middle ">@Model.TeachersCount</div>
                 </div>
-                <i class="bi bi-people stat-icon"></i>
+                <i class="bi bi-people stat-icon me-auto "></i>
                 <a class="stretched-link" asp-area="Admin" asp-controller="Teachers" asp-action="Index"></a>
             </div>
         </div>
 
     </div>
-
 </div>
-<div class="card-body stat-box">
+
+<div class="card mt-1 ">
+  <div class="card-body " dir="rtl">
+    <div class="alert-grid">
+      <!-- دوره‌های غیرفعال -->
+      <a class="alert-tile alert--danger"
+         asp-area="Admin" asp-controller="Courses" asp-action="Index" asp-route-status="deleted">
+                <span class="alert-count">@Model.DeletedCoursesCount</span>
+        <i class="bi bi-trash3 alert-icon"></i>
+        <div class="alert-title">دوره‌های غیرفعال</div>
+      </a>
+
+      <!-- دوره‌های بدون دسته -->
+            <a class="alert-tile alert--danger"
+         asp-area="Admin" asp-controller="Courses" asp-action="Index" asp-route-filter="withoutCategory">
+        <span class="alert-count">@Model.CoursesWithoutCategoryCount</span>
+        <i class="bi bi-diagram-3 alert-icon"></i>
+        <div class="alert-title">بدون دسته</div>
+      </a>
+
+      <!-- دوره‌های بدون مدرس -->
+            <a class="alert-tile alert--danger"
+         asp-area="Admin" asp-controller="Courses" asp-action="Index" asp-route-filter="withoutTeacher">
+                <span class="alert-count">@Model.CourseWithoutTeacherCount</span>
+        <i class="bi bi-person-x alert-icon"></i>
+        <div class="alert-title">بدون مدرس</div>
+      </a>
+
+      <!-- دسته‌های بدون دوره -->
+            <a class="alert-tile alert--danger"
+         asp-area="Admin" asp-controller="Categories" asp-action="Index" asp-route-filter="empty">
+                <span class="alert-count">@Model.CategoriesWithoutCourseCount</span>
+        <i class="bi bi-tags alert-icon"></i>
+        <div class="alert-title">دسته‌های خالی</div>
+      </a>
+
+      <!-- وقتی هیچ موردی نیست (شرطی) -->
+      <!--
+      <div class="alert-tile alert--ok">
+        <i class="bi bi-check-circle-fill alert-icon"></i>
+        <div class="alert-title">همه‌چیز اوکیه ✨</div>
+      </div>
+      -->
+    </div>
+  </div>
+</div>
+
+<div class="card-body no-hover stat-box">
     <div class="row row-cols-1 row-cols-md-3 g-3" dir="rtl">
         <div class="col">
             <div class="stat-box stat-green d-flex align-items-center justify-content-center h-100 position-relative">
@@ -63,35 +109,89 @@
 
     </div>
 </div>
-<div class ="card-body stat-box">
-    <div class="table-admin-wrap">
-        <table class="table-admin">
+
+<div class="card-body no-hover stat-box">
+    <div class="table-admin-wrap mt-4">
+        <table class="table-admin compact" dir="rtl">
             <thead>
                 <tr>
-                    <th>عنوان دوره</th>
-                    <th class="col-slug">اسلاگ</th>
-                    <th >دسته بندی ها</th>
-                    <th>مدرسین</th>
+                    <th>عنوان</th>
+                    <th>اسلاگ</th>
+                    <th>دسته‌بندی‌ها</th>
+                    <th>مدرس‌ها</th>
                     <th>وضعیت</th>
-                    <th class="col-date">تاریخ انتشار</th>
-                    <th class="col-actions">اکشن ها</t>
+                    <th>تاریخ انتشار</th>
+                    <th class="col-actions">اکشن‌ها</th>
                 </tr>
             </thead>
-            @foreach (var item in Model.LatestCourseViewModels)
-            {
-                <tbody>
+            <tbody>
+                @foreach (var c in Model.LatestCourse)
+                {
                     <tr>
-                        <td>@item.Title</td>
-                        <td>@item.Slug</td>
-                        <td>@item.Categories</td>
-                        <td>@item.Teachers</td>
-                        <td>@item.IsDelete</td>
-                        <td>@item.PublishDate</td>
-                    </tr>
-                </tbody>
-            }
-        </table>
+                        <td class="col-title">@c.Title</td>
+                        <td class="col-slug">
+                            <span class="slug-chip" dir="ltr">
+                                @c.Slug
+                            </span>
+                        </td>
 
+                        <!-- دسته‌ها: به‌صورت چیپ/بج -->
+                        <td>
+                            @if (c.Categories?.Any() == true)
+                            {
+                                foreach (var name in c.Categories)
+                                {
+                                    <span class="badge-status published" title="@name">@name</span>
+                                }
+                            }
+                            else
+                            {
+                                <span class="text-muted">—</span>
+                            }
+                    </td>
+
+                    <!-- مدرس‌ها: جداشده با ویرگول فارسی -->
+                    <td>
+                        @(c.Teachers?.Any() == true
+                                                ? string.Join("، ", c.Teachers)
+                                                : "—")
+                        </td>
+
+                        <!-- وضعیت -->
+                        <td>
+                            <span class="badge-status @(c.IsDelete ? "deleted" : "published")">
+                                @(c.IsDelete ? "غیرفعال" : "منتشر شده")
+                            </span>
+                        </td>
+
+                        <!-- تاریخ -->
+                        <td class="col-date">
+                            <span class="date-chip">
+                                <i class="bi bi-calendar3"></i>
+                                @((c.PublishDate?.ToString("yyyy/MM/dd")) ?? "-")
+                            </span>
+                        </td>
+
+                        <!-- اکشن‌ها -->
+                        <td class="col-actions">
+                            <a class="table-action table-action--info"
+                               asp-area="Admin" asp-controller="Courses" asp-action="Details" asp-route-id="@c.ID"
+                               aria-label="جزئیات دوره">
+                                <i class="bi bi-eye"></i> جزئیات
+                            </a>
+                            <a class="table-action"
+                               asp-area="Admin" asp-controller="Courses" asp-action="Edit" asp-route-id="@c.ID">
+                                ویرایش
+                            </a>
+                            <a class="table-action table-action--danger"
+                               asp-area="Admin" asp-controller="Courses" asp-action="Delete" asp-route-id="@c.ID">
+                                حذف
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </divclass>
 

@@ -20,6 +20,7 @@ namespace CourseHub.Areas.Admin.Controllers
                         .OrderByDescending(c => c.CoursePublishDate)
                         .Take(5)
                         .Select(c=> new LatestCourseViewModel{
+                            ID=c.CourseID,
                             Title=c.CourseTitle,
                             Slug=c.CourseSlug,
                             Categories=c.Course_Categories
@@ -33,9 +34,14 @@ namespace CourseHub.Areas.Admin.Controllers
                         }).ToListAsync();
             DashboardViewModel viewModel = new DashboardViewModel {
                 CoursesCount = await _context.Courses.CountAsync(),
-                CategoriesCount=await _context.Courses.CountAsync(),
-                TeachersCount=await _context.Courses.CountAsync(),
-                LatestCourseViewModels=Latestcourses
+                CategoriesCount = await _context.Courses.CountAsync(),
+                TeachersCount = await _context.Courses.CountAsync(),
+                DeletedCoursesCount = await _context.Courses.Where(c => c.CourseIsDelete == true).CountAsync(),
+                CoursesWithoutCategoryCount = await _context.Courses.Where(c => !c.Course_Categories.Any()).CountAsync(),
+                CourseWithoutTeacherCount = await _context.Courses.Where(c => !c.Course_Teachers.Any()).CountAsync(),
+                CategoriesWithoutCourseCount = await _context.Categories.Where(c => !c.Course_Categories.Any()).CountAsync(),
+
+                LatestCourse = Latestcourses
             }; 
             return View(viewModel);
         }
