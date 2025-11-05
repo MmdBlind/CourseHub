@@ -20,7 +20,10 @@ namespace CourseHub.Areas.Admin.Controllers
                     ID = c.CategoryID,
                     Name = c.CategoryName,
                     Slug = c.CategorySlug,
-                    ParentID = c.CategoryParentID,
+                    ParentName = _context.Categories
+                                    .Where(cp => cp.CategoryID == c.CategoryParentID)
+                                    .Select(p => p.CategoryName)
+                                    .FirstOrDefault(),
                     CoursesCount = c.Course_Categories.Count()
                 }).ToListAsync();
             return View();

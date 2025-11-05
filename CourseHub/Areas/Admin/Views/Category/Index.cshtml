@@ -7,13 +7,37 @@
                     <th>نام دسته</th>
                     <th>اسلاگ</th>
                     <th>دسته مرتبط</th>
+                    <th>تعداد دوره</th>
                     <th>عملیات</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model as List<CourseHub.Areas.Admin.Models.ViewModels.GetAllCategoriesViewModel>)
+                @foreach (var item in Model)
                 {
-                    
+                    <tr>
+                        <td class="col-title">@item.Name</td>
+                        <td class="col-slug">
+                            <span class="slug-chip" dir="rtl">
+                                @item.Slug
+                            </span>
+                        </td>
+                        <td class="col-title">
+                            @item.ParentName
+                        </td>
+                        <td>
+                            @item.CoursesCount
+                        </td>
+                        <td>
+                            <a class="table-action"
+                               asp-area="Admin" asp-controller="Category" asp-action="Edit" asp-route-id="@item.ID">
+                                ویرایش
+                            </a>
+                            <a class="table-action table-action--danger"
+                               asp-area="Admin" asp-controller="Category" asp-action="Delete" asp-route-id="@item.ID">
+                                حذف
+                            </a>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>
