@@ -1,0 +1,27 @@
+﻿@{
+    var msg = TempData["ToastMessage"] as string;
+    var type = (TempData["ToastType"] as string) ?? "success"; // success/info/warning/danger
+    var title = TempData["ToastTitle"] as string ?? "اعلان";
+}
+
+@if (!string.IsNullOrEmpty(msg))
+{
+    <div class="toast-container position-fixed p-3 top-0 start-50 translate-middle-x" style="z-index:1080">
+        <div id="appToast" class="toast text-bg-@type border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="4000">
+            <div class="toast-header">
+                <strong class="me-auto">@title</strong>
+                <button type="button" class="btn-close ms-2" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body text-end">@msg</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var el = document.getElementById('appToast');
+            if (el && typeof bootstrap !== 'undefined') {
+                new bootstrap.Toast(el).show();
+            }
+        });
+    </script>
+}

@@ -366,7 +366,8 @@
         color: var(--txt-muted);
     }
 
-    .table-admin .col-actions {
+
+    {
         width: 1%;
         white-space: nowrap;
     }
@@ -473,3 +474,154 @@
 .table-admin.compact :is(th,td) {
     padding: .55rem .7rem;
 }
+
+/* ===================== Form (inputs + selects) ===================== */
+:root {
+    --form-bg: #fff;
+    --form-border: #e5e7eb;
+    --form-text: #0f172a;
+    --form-muted: #6b7280;
+    --form-focus: #3b82f6;
+    --form-focus-ring: rgba(59,130,246,.15);
+    --form-danger: #ef4444;
+    --form-danger-ring: rgba(239,68,68,.12);
+    --form-success: #10b981;
+    --form-success-ring: rgba(16,185,129,.12);
+}
+
+/* فیلد + لیبل */
+.form-field {
+    margin-bottom: 1rem;
+}
+
+.form-label {
+    display: block;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: .4rem;
+}
+
+/* اینپوت‌های متنی */
+.form-control {
+    display: block;
+    width: 100%;
+    background: var(--form-bg);
+    color: var(--form-text);
+    border: 1px solid var(--form-border);
+    border-radius: .65rem;
+    padding: .6rem .8rem;
+    line-height: 1.4;
+    transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+}
+
+    .form-control::placeholder {
+        color: var(--form-muted);
+        opacity: .8;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--form-focus);
+        box-shadow: 0 0 0 .25rem var(--form-focus-ring);
+    }
+
+/* دراپ‌داون (select) */
+.form-select {
+    display: block;
+    width: 100%;
+    background: var(--form-bg);
+    color: var(--form-text);
+    border: 1px solid var(--form-border);
+    border-radius: .65rem;
+    padding: .6rem 2.2rem .6rem .8rem; /* فضای پیکان */
+    line-height: 1.4;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 14px 14px;
+    background-position: right .8rem center; /* LTR پیش‌فرض */
+}
+
+    .form-select:focus {
+        outline: none;
+        border-color: var(--form-focus);
+        box-shadow: 0 0 0 .25rem var(--form-focus-ring);
+    }
+
+/* RTL: جای پیکان و padding اصلاح شود */
+[dir="rtl"] .form-select {
+    padding: .6rem .8rem .6rem 2.2rem; /* فضای پیکان سمت چپ */
+    background-position: left .8rem center;
+}
+
+/* حالت غیرفعال */
+.form-control:disabled, .form-select:disabled {
+    background: #f9fafb;
+    color: var(--form-muted);
+    cursor: not-allowed;
+    opacity: .9;
+}
+
+/* ولیدیشن (با کلاس‌های سروری) */
+.form-control.is-invalid, .form-select.is-invalid {
+    border-color: var(--form-danger);
+    box-shadow: 0 0 0 .25rem var(--form-danger-ring);
+}
+
+.form-control.is-valid, .form-select.is-valid {
+    border-color: var(--form-success);
+    box-shadow: 0 0 0 .25rem var(--form-success-ring);
+}
+
+/* پیام‌های کمکی/خطا */
+.field-hint {
+    color: var(--form-muted);
+    font-size: .85rem;
+    margin-top: .3rem;
+}
+
+.field-error {
+    color: var(--form-danger);
+    font-size: .85rem;
+    margin-top: .3rem;
+}
+
+/* اینپوت با آیکن داخلش */
+.input-with-icon {
+    position: relative;
+}
+
+    .input-with-icon .icon {
+        position: absolute;
+        inset-block-start: 50%;
+        transform: translateY(-50%);
+        inset-inline-start: .75rem; /* در RTL هم درست عمل می‌کند */
+        font-size: 1rem;
+        color: var(--form-muted);
+        pointer-events: none;
+    }
+
+    .input-with-icon .form-control {
+        padding-inline-start: 2.2rem;
+    }
+
+/* سایزبندی اختیاری */
+.form-sm .form-control, .form-sm .form-select {
+    padding: .45rem .7rem;
+    border-radius: .55rem;
+}
+
+.form-lg .form-control, .form-lg .form-select {
+    padding: .8rem 1rem;
+    border-radius: .75rem;
+}
+
+/* فیلدهای چندخطی */
+textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+}
+
