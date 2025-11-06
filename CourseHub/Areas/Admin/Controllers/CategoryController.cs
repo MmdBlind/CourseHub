@@ -61,7 +61,14 @@ namespace CourseHub.Areas.Admin.Controllers
         public async Task<IActionResult> Create(CreateAndEditCategoryViewModel viewModel)
         {
             var transaction=_context.Database.BeginTransaction();
-            if (_context.Categories.Where(c => c.CategorySlug == viewModel.Slug.Trim('-')).Any())
+            // بیرون از LINQ و به‌صورت null-safe
+            var slugSafe = (viewModel.Slug ?? string.Empty).Trim('-');
+
+            // کوئری تمیزتر و کاراتر
+            var exists = await _context.Categories
+                .AsNoTracking()
+                .AnyAsync(c => c.CategorySlug == slugSafe);
+            if (!exists)
             {
                 if (viewModel.Name != null && viewModel.Slug != null)
                 {
@@ -74,6 +81,9 @@ namespace CourseHub.Areas.Admin.Controllers
                     await _context.Categories.AddAsync(category);
                     await _context.SaveChangesAsync();
                     transaction.Commit();
+                    TempData["ToastMessage"] = "دوره با موفقیت ایجاد شد.";
+                    TempData["ToastType"] = "success"; // info / warning / danger
+                    TempData["ToastTitle"] = "موفق";
                     return RedirectToAction("index");
                 }
                 else
