@@ -1,4 +1,18 @@
 ﻿@model List<CourseHub.Areas.Admin.Models.ViewModels.GetAllCategoriesViewModel>
+<div class="card-body no-hover stat-box">
+    <div class="row row-cols-1 row-cols-md-3 g-3" dir="rtl">
+        <div class="col-md-2">
+            <input type="type" name="name" value="" />
+        </div>
+        <div class="col">
+            <div class="stat-box stat-green d-flex align-items-center justify-content-center h-100 position-relative">
+                <span class="fw-bold fs-4 text-white">اضافه‌کردن دسته</span>
+                <a class="stretched-link" asp-area="Admin" asp-controller="Category" asp-action="Create" aria-label="د"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="card-body stat-box no-hover">
     <div class="table-admin-wrap mt-4">
         <table class="table-admin compact" dir="rtl">

@@ -1,27 +1,60 @@
 ﻿@{
     var msg = TempData["ToastMessage"] as string;
-    var type = (TempData["ToastType"] as string) ?? "success"; // success/info/warning/danger
+    var type = (TempData["ToastType"] as string)?.ToLowerInvariant() ?? "success"; // success/info/warning/danger
     var title = TempData["ToastTitle"] as string ?? "اعلان";
+
+    string icon = type switch
+    {
+        "danger" => "x-circle",
+        "warning" => "exclamation-triangle",
+        "success" => "check-circle",
+        _ => "info-circle"
+    };
 }
 
-@if (!string.IsNullOrEmpty(msg))
+@if (!string.IsNullOrWhiteSpace(msg))
 {
-    <div class="toast-container position-fixed p-3 top-0 start-50 translate-middle-x" style="z-index:1080">
-        <div id="appToast" class="toast text-bg-@type border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="4000">
-            <div class="toast-header">
-                <strong class="me-auto">@title</strong>
-                <button type="button" class="btn-close ms-2" data-bs-dismiss="toast" aria-label="Close"></button>
+    <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index:1200">
+        <div id="appToast"
+             class="toast fade app-toast app-toast-@type" @* توجه: show نذار! *@
+             role="status" aria-live="polite" aria-atomic="true"
+             data-bs-autohide="true" data-bs-delay="3000" data-bs-animation="true"
+             style="--toast-delay:3000ms">
+            <div class="app-toast-header d-flex align-items-center justify-content-between flex-row-reverse">
+                <div class="d-flex align-items-center gap-2 app-toast-title">
+                    <i class="bi bi-@icon"></i>
+                    <strong class="text-end">@title</strong>
+                </div>
+                <button type="button" class="btn-close ms-0 me-2" data-bs-dismiss="toast" aria-label="بستن"></button>
             </div>
             <div class="toast-body text-end">@msg</div>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var el = document.getElementById('appToast');
-            if (el && typeof bootstrap !== 'undefined') {
-                new bootstrap.Toast(el).show();
-            }
-        });
+        (function () {
+          var el = document.getElementById('appToast');
+          if (!el) return;
+
+          try {
+            // اگر قبلاً اینستنس ساخته نشده، همین الان بساز
+            var t = bootstrap.Toast.getOrCreateInstance(el, { autohide: true, delay: 3000, animation: true });
+
+            // نمایش
+            t.show();
+
+            // Safety hide: اگر به هر دلیل Bootstrap مخفی نکرد، خودمان مخفی کنیم
+            var safety = setTimeout(function () {
+              try { t.hide(); } catch { el.classList.remove('show'); el.style.display = 'none'; }
+            }, 3200);
+
+            // وقتی مخفی شد، تایمر اضافی رو پاک کن
+            el.addEventListener('hidden.bs.toast', function () { clearTimeout(safety); });
+          } catch (e) {
+            // اگر Bootstrap JS نبود، فالبک ساده
+            el.classList.add('show');
+            setTimeout(function(){ el.classList.remove('show'); el.style.display = 'none'; }, 3000);
+          }
+        })();
     </script>
 }

@@ -625,3 +625,125 @@ textarea.form-control {
     resize: vertical;
 }
 
+/* ===== Toast — Liquid Glass (Solid) ================================= */
+.app-toast {
+    --toast-delay: 3000ms; /* با data-bs-delay یکی باشد */
+    --accent: #2563eb; /* رنگ اصلی (نوع پیام تعیین می‌کند) */
+    --bg: rgba(37,99,235,.14); /* پس‌زمینه‌ی یک‌تکه با تناژ رنگی */
+    --fg: #0f172a; /* رنگ متن */
+    --stroke: rgba(15,23,42,.08);
+    direction: rtl;
+    position: relative;
+    border-radius: 16px;
+    border: 1px solid var(--stroke);
+    background: var(--bg); /* ← یک‌تکه */
+    color: var(--fg);
+    box-shadow: 0 14px 30px rgba(0,0,0,.16);
+    backdrop-filter: blur(10px) saturate(130%);
+    -webkit-backdrop-filter: blur(10px) saturate(130%);
+    overflow: hidden;
+    animation: toast-in .20s ease-out both;
+}
+
+    /* نوار پیشرفت باریک بالا */
+    .app-toast::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        height: 2px;
+        background: var(--accent);
+        transform-origin: right;
+        animation: toast-timer var(--toast-delay) linear forwards;
+    }
+
+/* هدر راست‌چین؛ بدون مرز/گرادیان تا یک‌تکه بماند */
+.app-toast-header {
+    background: transparent;
+    border-bottom: none;
+    padding: .7rem .95rem;
+    color: var(--fg);
+}
+
+/* تیتر و آیکن (آیکن سمت راست) */
+.app-toast-title .bi {
+    font-size: 1.05rem;
+    color: var(--accent);
+}
+
+.app-toast-title strong {
+    font-weight: 700;
+}
+
+/* متن بدنه بزرگ‌تر و خواناتر */
+.app-toast .toast-body {
+    padding: .95rem 1rem;
+    font-size: 1.1rem; /* درخواست خودت: بزرگ‌تر */
+    line-height: 1.85;
+    background: transparent;
+    color: var(--fg);
+}
+
+/* دکمه بستن سمت چپ (به خاطر flex-row-reverse) */
+.app-toast .btn-close {
+    margin-right: .25rem;
+    opacity: .65;
+    filter: invert(0);
+}
+
+    .app-toast .btn-close:hover {
+        opacity: .9;
+    }
+
+/* پالت‌ها: فقط اکسنت و پس‌زمینه عوض می‌شوند */
+.app-toast-success {
+    --accent: #16a34a;
+    --bg: rgba(22,163,74,.14);
+}
+
+.app-toast-info {
+    --accent: #2563eb;
+    --bg: rgba(37,99,235,.14);
+}
+
+.app-toast-warning {
+    --accent: #f59e0b;
+    --bg: rgba(245,158,11,.16);
+}
+
+.app-toast-danger {
+    --accent: #dc2626;
+    --bg: rgba(220,38,38,.18);
+}
+/* قرمز ملایم برای خطا */
+
+/* چند توست پشت‌سرهم فاصله بگیرند */
+.toast-container {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+/* انیمیشن‌ها */
+@keyframes toast-in {
+    from {
+        transform: translateY(-6px);
+        opacity: 0
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1
+    }
+}
+
+@keyframes toast-timer {
+    from {
+        transform: scaleX(1)
+    }
+
+    to {
+        transform: scaleX(0)
+    }
+}
