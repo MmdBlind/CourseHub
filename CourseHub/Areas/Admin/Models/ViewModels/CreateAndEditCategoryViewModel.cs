@@ -15,5 +15,7 @@ namespace CourseHub.Areas.Admin.Models.ViewModels
         
         [ValidateNever]
         public List<SelectListItem> ParentOption { get; set; }
+
+        public int CoursesCount { get; set; }
     }
 }

@@ -97,7 +97,6 @@ namespace CourseHub.Areas.Admin.Controllers
                 }
                 else
                 {
-
                     TempData["ToastMessage"] = "تمامی فیلد ها پرشود.";
                     TempData["ToastType"] = "warning"; // info / warning / danger
                     TempData["ToastTitle"] = "توجه";
