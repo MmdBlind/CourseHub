@@ -1,16 +1,39 @@
 ﻿@model List<CourseHub.Areas.Admin.Models.ViewModels.GetAllCategoriesViewModel>
-<div class="card-body no-hover stat-box">
-    <div class="row row-cols-1 row-cols-md-3 g-3" dir="rtl">
-        <div class="col-md-2">
-            <input type="type" name="name" value="" />
+
+@{
+    var q = (ViewData["q"] as string) ?? "";
+}
+
+<div class="d-flex align-items-center justify-content-between gap-3 mb-3">
+    <!-- راست: سرچ -->
+    <form method="get" asp-action="Index" class="flex-grow-1" style="max-width: 640px;">
+        <div class="input-group searchbar">
+            <button class="btn icon-btn btn-search" type="submit" title="جستجو">
+                <i class="bi bi-search"></i>
+            </button>
+            <input type="text"
+                   name="q"
+                   value="@q"
+                   class="form-control text-end"
+                   placeholder="نام و اسلاگ" />
+
+            
+
+            @if (!string.IsNullOrWhiteSpace(q))
+            {
+                <a asp-action="Index" class="btn icon-btn btn-clear" title="پاک‌کردن جستجو">
+                    <i class="bi bi-x-lg"></i>
+                </a>
+            }
         </div>
-        <div class="col">
-            <div class="stat-box stat-green d-flex align-items-center justify-content-center h-100 position-relative">
-                <span class="fw-bold fs-4 text-white">اضافه‌کردن دسته</span>
-                <a class="stretched-link" asp-area="Admin" asp-controller="Category" asp-action="Create" aria-label="د"></a>
-            </div>
-        </div>
-    </div>
+    </form>
+
+    <!-- چپ: دکمهٔ افزودن (کمی بزرگ‌تر) -->
+    <a asp-area="Admin" asp-controller="Category" asp-action="Create"
+       class="btn btn-success btn-add">
+        <i class="bi bi-plus-lg"></i>
+        افزودن دسته
+    </a>
 </div>
 
 <div class="card-body stat-box no-hover">
@@ -39,7 +62,7 @@
                             @item.ParentName
                         </td>
                         <td>
-                            CoursesCount
+                            @item.CoursesCount
                         </td>
                         <td>
                             <a class="table-action"

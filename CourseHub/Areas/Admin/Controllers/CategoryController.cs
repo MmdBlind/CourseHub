@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Concurrent;
+using System.Threading.Tasks;
 
 namespace CourseHub.Areas.Admin.Controllers
 {
@@ -39,9 +40,11 @@ namespace CourseHub.Areas.Admin.Controllers
             //اینجا لیست رو به ویو مدل پاس میدیم
             viewModel.ParentOption = items;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? q)
         {
+            ViewData["q"] = q;
             var CategoryList = await _context.Categories
+                .Where(c => string.IsNullOrWhiteSpace(q) || c.CategoryName.Contains(q) || c.CategorySlug.Contains(q))
                 .Select(c => new GetAllCategoriesViewModel
                 {
                     ID = c.CategoryID,
@@ -114,6 +117,39 @@ namespace CourseHub.Areas.Admin.Controllers
             }
         }
 
+        public async Task<IActionResult> Edit(int id)
+        {
+            CreateAndEditCategoryViewModel viewModel = new CreateAndEditCategoryViewModel();
+            var Category =await _context.Categories
+                .Where(c => c.CategoryID == id)
+                .Select(c => new CreateAndEditCategoryViewModel
+                {
+                    ID = c.CategoryID,
+                    Name = c.CategoryName,
+                    Slug = c.CategorySlug,
+                    ParentID = c.CategoryParentID
+                }).ToListAsync();
+            await FillParentOptionsAsync(viewModel, id); ;
+            return View(viewModel);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(CreateAndEditCategoryViewModel ViewModel)
+        {
+            string SafeSlug = ViewModel.Slug.Trim('-');
 
+            var category = _context.Categories.Where(c => c.CategoryID == ViewModel.ID)
+                                .ExecuteUpdateAsync(s => s
+                                    .SetProperty(c => c.CategoryName, ViewModel.Name)
+                                    .SetProperty(c => c.CategorySlug, SafeSlug)
+                                    .SetProperty(c => c.CategoryParentID, ViewModel.ParentID)
+                                );
+            await _context.SaveChangesAsync();
+            TempData["ToastMessage"] = "دسته با موفقیت ویرایش شد.";
+            TempData["ToastType"] = "success"; // info / warning / danger
+            TempData["ToastTitle"] = "موفق";
+            return View("index");
+
+        }
     }
 }

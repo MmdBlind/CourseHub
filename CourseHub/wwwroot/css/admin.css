@@ -32,7 +32,9 @@
 /* =================================================================== */
 /*                               Stats                                 */
 /* =================================================================== */
-
+.card > .card-body .input-group .form-control::placeholder {
+    color: #94a3b8; /* slate-400 */
+}
 /* stat cards */
 .stat-box {
     color: #fff;
@@ -747,3 +749,125 @@ textarea.form-control {
         transform: scaleX(0)
     }
 }
+/* نوار سرچ یک‌تکه و مینیمال */
+.searchbar {
+    border: 1px solid #e5e7eb; /* slate-200 */
+    border-radius: 9999px;
+    background: #fff;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0,0,0,.06);
+}
+    /* ورودی */
+    .searchbar .form-control {
+        border: 0 !important;
+        box-shadow: none !important;
+        padding-block: .6rem;
+        padding-inline: .9rem .4rem; /* فاصله راست بیشتر در RTL */
+    }
+
+        .searchbar .form-control::placeholder {
+            color: #94a3b8;
+        }
+    /* slate-400 */
+
+    /* فوکوس شیک */
+    .searchbar:focus-within {
+        border-color: #93c5fd; /* blue-300 */
+        box-shadow: 0 0 0 3px rgba(59,130,246,.14);
+    }
+
+    /* دکمه‌ها */
+    .searchbar .btn {
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: transparent;
+    }
+
+    .searchbar .icon-btn {
+        width: 42px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* آیکن‌ها و هاورها */
+    .searchbar .btn-search {
+        color: #334155;
+    }
+        /* slate-700 */
+        .searchbar .btn-search:hover {
+            background: #f8fafc;
+        }
+    /* slate-50 */
+    .searchbar .btn-clear {
+        color: #ef4444;
+    }
+        /* red-500 */
+        .searchbar .btn-clear:hover {
+            background: rgba(239,68,68,.08);
+        }
+
+/* فاصله بین چند توست/نوار (اختیاری) */
+.toast-container {
+    gap: .5rem;
+}
+/* دکمه افزودن کمی بزرگ‌تر و جمع‌وجور */
+.btn-add {
+    padding: .55rem 1rem; /* از btn-sm بزرگ‌تر، از btn-lg کوچک‌تر */
+    border-radius: .75rem;
+    font-weight: 600;
+}
+
+/* استایل سرچ یک‌تکه (قبلی) */
+.searchbar {
+    border: 1px solid #e5e7eb;
+    border-radius: 9999px;
+    background: #fff;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0,0,0,.06);
+}
+
+    .searchbar .form-control {
+        border: 0 !important;
+        box-shadow: none !important;
+        padding-block: .6rem;
+        padding-inline: .9rem .4rem;
+    }
+
+        .searchbar .form-control::placeholder {
+            color: #94a3b8;
+        }
+
+    .searchbar:focus-within {
+        border-color: #93c5fd;
+        box-shadow: 0 0 0 3px rgba(59,130,246,.14);
+    }
+
+    .searchbar .btn {
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: transparent;
+    }
+
+    .searchbar .icon-btn {
+        width: 42px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .searchbar .btn-search {
+        color: #334155;
+    }
+
+        .searchbar .btn-search:hover {
+            background: #f8fafc;
+        }
+
+    .searchbar .btn-clear {
+        color: #ef4444;
+    }
+
+        .searchbar .btn-clear:hover {
+            background: rgba(239,68,68,.08);
+        }
