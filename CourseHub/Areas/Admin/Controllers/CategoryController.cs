@@ -44,7 +44,7 @@ namespace CourseHub.Areas.Admin.Controllers
         {
             ViewData["q"] = q;
             var CategoryList = await _context.Categories
-                .Where(c => string.IsNullOrWhiteSpace(q) || c.CategoryName.Contains(q) || c.CategorySlug.Contains(q))
+                .Where(c => c.IsDelete==false && string.IsNullOrWhiteSpace(q) || c.CategoryName.Contains(q) || c.CategorySlug.Contains(q))
                 .Select(c => new GetAllCategoriesViewModel
                 {
                     ID = c.CategoryID,
@@ -57,6 +57,7 @@ namespace CourseHub.Areas.Admin.Controllers
                     CoursesCount = c.Course_Categories.Count()
                 }).ToListAsync();
 
+            
             return View(CategoryList);
         }
 
@@ -120,7 +121,7 @@ namespace CourseHub.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             CreateAndEditCategoryViewModel viewModel = new CreateAndEditCategoryViewModel();
-            var Category =await _context.Categories
+            viewModel =await _context.Categories
                 .Where(c => c.CategoryID == id)
                 .Select(c => new CreateAndEditCategoryViewModel
                 {
@@ -128,28 +129,49 @@ namespace CourseHub.Areas.Admin.Controllers
                     Name = c.CategoryName,
                     Slug = c.CategorySlug,
                     ParentID = c.CategoryParentID
-                }).ToListAsync();
+                }).FirstOrDefaultAsync();
             await FillParentOptionsAsync(viewModel, id); ;
             return View(viewModel);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(CreateAndEditCategoryViewModel ViewModel)
         {
             string SafeSlug = ViewModel.Slug.Trim('-');
 
-            var category = _context.Categories.Where(c => c.CategoryID == ViewModel.ID)
-                                .ExecuteUpdateAsync(s => s
-                                    .SetProperty(c => c.CategoryName, ViewModel.Name)
-                                    .SetProperty(c => c.CategorySlug, SafeSlug)
-                                    .SetProperty(c => c.CategoryParentID, ViewModel.ParentID)
-                                );
-            await _context.SaveChangesAsync();
+            var category = await _context.Categories.FindAsync(ViewModel.ID);
+            category.CategoryName = ViewModel.Name;
+            category.CategorySlug=SafeSlug;
+            category.CategoryParentID= ViewModel.ParentID;
+            _context.SaveChangesAsync();
             TempData["ToastMessage"] = "دسته با موفقیت ویرایش شد.";
             TempData["ToastType"] = "success"; // info / warning / danger
             TempData["ToastTitle"] = "موفق";
-            return View("index");
+            return RedirectToAction("index");
 
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                var DeleteCategory = await _context.Categories.FindAsync(id);
+                DeleteCategory.IsDelete = true;
+                await _context.SaveChangesAsync();
+                TempData["ToastMessage"] = "عملیات با موفقیت انجام شد.";
+                TempData["ToastType"] = "success"; // info / warning / danger
+                TempData["ToastTitle"] = "موفق";
+                return RedirectToAction("index");
+            }
+            else
+            {
+                TempData["ToastMessage"] = "عملیات با شکست مواجه شد.";
+                TempData["ToastType"] = "danger"; // info / warning / danger
+                TempData["ToastTitle"] = "خطا";
+                return RedirectToAction("index");
+            }
         }
     }
 }

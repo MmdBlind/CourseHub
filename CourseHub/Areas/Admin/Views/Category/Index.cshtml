@@ -69,10 +69,14 @@
                                asp-area="Admin" asp-controller="Category" asp-action="Edit" asp-route-id="@item.ID">
                                 ویرایش
                             </a>
-                            <a class="table-action table-action--danger"
-                               asp-area="Admin" asp-controller="Category" asp-action="Delete" asp-route-id="@item.ID">
+                            <button type="button"
+                                    class="table-action table-action--danger btn btn-link p-0"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#confirmDeleteModal"
+                                    data-id="@item.ID"
+                                    data-name="@item.Name">
                                 حذف
-                            </a>
+                            </button>
                         </td>
                     </tr>
                 }
@@ -80,3 +84,46 @@
         </table>
     </div>
 </div>
+<!-- مودال تأیید حذف: انتهای Index.cshtml -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true" dir="rtl">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">تأیید حذف</h5>
+                <button type="button" class="btn-close ms-0" data-bs-dismiss="modal" aria-label="بستن"></button>
+            </div>
+            <div class="modal-body">
+                آیا از حذف <strong id="deleteName" class="text-danger"></strong> مطمئن هستید؟
+                <div class="small text-secondary mt-2">این عمل ممکن است غیرقابل بازگشت باشد.</div>
+            </div>
+            <div class="modal-footer justify-content-between flex-row-reverse">
+                <form id="deleteForm"
+                      asp-area="Admin" asp-controller="Category" asp-action="Delete"
+                      method="post" class="m-0">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" id="deleteId" />
+                    <button type="submit" class="btn btn-danger">بله، حذف شود</button>
+                </form>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">انصراف</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          var modalEl = document.getElementById('confirmDeleteModal');
+          if (!modalEl) return;
+
+          modalEl.addEventListener('show.bs.modal', function (ev) {
+            var btn  = ev.relatedTarget;                 // دکمه‌ای که مودال رو باز کرده
+            var id   = btn?.getAttribute('data-id') ?? '';
+            var name = btn?.getAttribute('data-name') ?? '';
+
+            modalEl.querySelector('#deleteName').textContent = '«' + name + '»';
+            modalEl.querySelector('#deleteId').value = id;  // می‌رود به input hidden فرم
+          });
+        });
+    </script>
+}
