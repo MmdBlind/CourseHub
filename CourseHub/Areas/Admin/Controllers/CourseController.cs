@@ -1,5 +1,8 @@
-﻿using CourseHub.Persistence;
+﻿using CourseHub.Areas.Admin.Models.ViewModels;
+using CourseHub.Models.CourseDB;
+using CourseHub.Persistence;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CourseHub.Areas.Admin.Controllers
 {
@@ -16,7 +19,21 @@ namespace CourseHub.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var CourseList = _context.Courses
-            return View();
+                .AsNoTracking()
+                .Select( c=>new GetAllCoursesViewModel
+                {
+                    CourseID=c.CourseID,
+                    CourseTitle=c.CourseTitle,
+                    CourseSlug=c.CourseSlug,
+                    CategoryList= _context.Course_Categories
+                                    .Where(cc=>cc.CourseID==c.CourseID)
+                                    .Select(c=>c.Category.CategoryName)
+                                    .FirstOrDefault(),
+                    CoursePrice=c.CoursePrice,
+                    CoursePublishDate=c.CoursePublishDate,
+                    CourseIsDelete=c.CourseIsDelete
+                }).ToList();
+            return View(CourseList);
         }
     }
 }
